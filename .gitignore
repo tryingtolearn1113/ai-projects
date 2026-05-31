@@ -1,0 +1,24 @@
+# Secret files
+.env
+api_keys.txt
+
+# Virtual environment
+myenv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# EPICS sensitive files
+*.edl
+*.adl
+*.opi
+*.medm
+
+# Generated files
+pv_analysis.txt
+generated_dashboard.py
+
+# Windows files
+Thumbs.db
+desktop.ini
