@@ -68,7 +68,7 @@ Please analyze each PV name and categorize them into these groups:
 - cell_status: storage ring cell status indicators
 - interlocks: machine protection system PVs
 - bpm: beam position monitors
-- rf_system: RF cavity and frequency PVs
+- rf_system: RF cavity and frequency PVsc
 - shutters: beamline shutter PVs
 - id_gaps: insertion device gap PVs
 - heartbeat: system heartbeat monitors
