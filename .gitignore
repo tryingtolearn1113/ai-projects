@@ -18,7 +18,8 @@ __pycache__/
 # Generated files
 pv_analysis.txt
 generated_dashboard.py
-
+pls_monitor_end2.py
+plssimulator.py
 # Windows files
 Thumbs.db
 desktop.ini
