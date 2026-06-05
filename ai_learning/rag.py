@@ -28,8 +28,8 @@ def build_rag(document_path):
 
     print("Splitting into chunks...")
     splitter = CharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
+        chunk_size=300,
+        chunk_overlap=30
     )
     chunks = splitter.split_documents(documents)
     print(f"Created {len(chunks)} chunks!")
@@ -52,7 +52,7 @@ def build_rag(document_path):
     )
 
     retriever = vectorstore.as_retriever(
-            search_kwargs={"k": 3}
+            search_kwargs={"k": 5}
         )
 
     prompt = ChatPromptTemplate.from_template("""

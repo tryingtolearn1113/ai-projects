@@ -10,12 +10,9 @@ API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=API_KEY)
 
 # Your text to summarize
-text = """
-Artificial intelligence is transforming 
-the way we work and learn. 
-Python is one of the most popular 
-programming languages for AI development.
-"""
+filepath = input("Select previous chat log: ")
+with open(filepath, 'r', encoding='utf-8') as f:
+    text = f.read()
 
 # Ask AI to summarize
 prompt = f"Summarize this in 3 bullet points:\n\n{text}"
