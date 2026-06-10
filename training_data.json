@@ -1,0 +1,42 @@
+[
+  {
+    "input": "What is the main purpose of the `epics` package in Python?",
+    "output": "The `epics` package provides functions, modules, and classes to interact with EPICS Channel Access."
+  },
+  {
+    "input": "How do you import the `epics` package in a Python script?",
+    "output": "You import it with `import epics`."
+  },
+  {
+    "input": "Which functions are recommended for simple scripts or a quick introduction to using Channel Access?",
+    "output": "The `caget()` and `caput()` functions are recommended."
+  },
+  {
+    "input": "For larger scripts and programs, which PyEpics object is recommended for interacting with a Process Variable?",
+    "output": "The `PV` object is recommended for larger scripts and programs."
+  },
+  {
+    "input": "What does the `Device` object represent in PyEpics?",
+    "output": "A `Device` object represents a collection of related PVs, similar to an Epics Record."
+  },
+  {
+    "input": "Which PyEpics module exposes the lowest-level Channel Access functionality, similar to the C library?",
+    "output": "The `ca` module exposes the lowest-level Channel Access functionality."
+  },
+  {
+    "input": "Name two functions available in the top-level `epics` module for interacting with Epics Process Variables.",
+    "output": "Two functions are `caget()` and `caput()`."
+  },
+  {
+    "input": "What kind of object is a `Motor` object in PyEpics?",
+    "output": "A `Motor` object is a `Device` that represents an Epics Motor."
+  },
+  {
+    "input": "What is the purpose of an `Alarm` object in PyEpics?",
+    "output": "An `Alarm` object can be used to set up notifications when a PV’s values goes outside an acceptable bounds."
+  },
+  {
+    "input": "What are the three core functions mentioned in the top-level `epics` module for basic interaction with Process Variables?",
+    "output": "The three core functions are `caget()`, `caput()`, and `cainfo()`."
+  }
+]
