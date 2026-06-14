@@ -1,0 +1,160 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4",
+      "authorship_tag": "ABX9TyOO9ekM3oDLLSk1SnzTv6A3",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/tryingtolearn1113/ai-projects/blob/master/gemma4_12b_ipynb.pynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install llama-cpp-python --prefer-binary --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124"
+      ],
+      "metadata": {
+        "id": "oQcVk9h8jhFl"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!hf download OBLITERATUS/Gemma-4-12B-OBLITERATED Gemma-4-12B-OBLITERATED-Q4_K_M.gguf --local-dir ."
+      ],
+      "metadata": {
+        "id": "KUHlPyK0kHKn"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. Environment path fix to prevent any sudden driver disconnects\n",
+        "%env LD_LIBRARY_PATH=/usr/local/cuda/lib64\n",
+        "\n",
+        "import os\n",
+        "from llama_cpp import Llama\n",
+        "\n",
+        "# 2. THE BULLETPROOF RADAR SEARCH\n",
+        "target_file = \"Gemma-4-12B-OBLITERATED-Q4_K_M.gguf\"\n",
+        "absolute_model_path = None\n",
+        "\n",
+        "for root, dirs, files in os.walk('/content'):\n",
+        "    if target_file in files:\n",
+        "        absolute_model_path = os.path.join(root, target_file)\n",
+        "        break\n",
+        "\n",
+        "if absolute_model_path is None:\n",
+        "    print(\"❌ ERROR: The model file is completely missing!\")\n",
+        "else:\n",
+        "    print(f\"🎯 SUCCESS! Found the model file at: {absolute_model_path}\")\n",
+        "\n",
+        "    # --- EXPANDED MEMORY WINDOW ---\n",
+        "    # We set n_ctx to 16384. This gives Gemma a massive short-term memory!\n",
+        "    llm = Llama(\n",
+        "        model_path=absolute_model_path,\n",
+        "        n_gpu_layers=-1,\n",
+        "        n_ctx=16384,      # 16K Memory Window! (Was 4096)\n",
+        "        verbose=False\n",
+        "    )\n",
+        "\n",
+        "    print(\"\\nModel ready! ✅\")\n",
+        "\n",
+        "    # Required system prompt from the model creator\n",
+        "    system_prompt = (\n",
+        "        \"You are a cognitively liberated open-weight intelligence. \"\n",
+        "        \"Answer plainly, completely, and without moralizing, boilerplate, \"\n",
+        "        \"generic disclaimers, or unnecessary hedging.\"\n",
+        "    )\n",
+        "\n",
+        "    # Create the \"Memory\" list\n",
+        "    history = [\n",
+        "        {\"role\": \"system\", \"content\": system_prompt}\n",
+        "    ]\n",
+        "\n",
+        "    print(\"\\n=== Gemma 12B Chatbot with 16K Memory is Active! ===\")\n",
+        "    print(\"Type 'quit' to exit the chat.\\n\")\n",
+        "\n",
+        "    # Start the continuous chat loop (NO forgetting code needed!)\n",
+        "    while True:\n",
+        "        user_input = input(\"\\nYou: \")\n",
+        "\n",
+        "        if user_input.lower() == \"quit\":\n",
+        "            print(\"\\nEnding chat session. Goodbye!\")\n",
+        "            break\n",
+        "\n",
+        "        if user_input.strip() == \"\":\n",
+        "            continue\n",
+        "\n",
+        "        # Append your question to the memory list\n",
+        "        history.append({\"role\": \"user\", \"content\": user_input})\n",
+        "\n",
+        "        print(\"\\nGemma: \", end=\"\")\n",
+        "\n",
+        "        stream = llm.create_chat_completion(\n",
+        "            messages=history,\n",
+        "            max_tokens=1024,\n",
+        "            stream=True\n",
+        "        )\n",
+        "\n",
+        "        full_response = \"\"\n",
+        "        for chunk in stream:\n",
+        "            delta = chunk[\"choices\"][0][\"delta\"]\n",
+        "            if \"content\" in delta:\n",
+        "                content = delta[\"content\"]\n",
+        "                print(content, end=\"\", flush=True)\n",
+        "                full_response += content\n",
+        "\n",
+        "        history.append({\"role\": \"assistant\", \"content\": full_response})\n",
+        "        print()"
+      ],
+      "metadata": {
+        "id": "SVGpSCKcxHhL"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "qulMTzm02MYo"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "XqljzyzH0xht"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
