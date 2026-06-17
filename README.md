@@ -3,8 +3,7 @@
 ## Background
 
 I worked as an operator at Pohang Accelerator Laboratory (PAL),
-where I used EPICS control software daily.
-I noticed some of the tools were outdated and hard to maintain,
+While working, I thought it would be better if they operated in PyEPICS
 so I began learning Python and AI to modernize them.
 These projects are the result of that learning process.
 
