@@ -68,7 +68,10 @@ Question: {question}
 
     chain = (
         {
-            "context": RunnableLambda(lambda x: x["question"]) | retriever,
+            "context": RunnableLambda(lambda x: "\n\n".join(
+                [d.page_content for d in retriever.invoke(x["question"])
+                 if len(d.page_content) > 100]
+            )),
             "question": RunnableLambda(lambda x: x["question"])
         }
         | prompt
@@ -76,6 +79,18 @@ Question: {question}
         | StrOutputParser()
     )
     return chain
+
+def get_relevant_context(question, retriever, threshold=100):
+    docs = retriever.invoke(question)
+    
+    # Filter chunks that are too short to be useful
+    relevant = [d.page_content for d in docs if len(d.page_content) > threshold]
+    
+    if not relevant:
+        return None
+    
+    return "\n\n".join(relevant)
+
 
 @app.on_event("startup")
 async def startup_event():
@@ -91,23 +106,18 @@ def root():
 @app.post("/ask")
 def ask(question: Question):
     if chain is None:
-        return {"error": "API not ready yet, please wait"}
-    
+        return {"error": "API not ready yet"}
     if not question.text.strip():
         return {"error": "Question cannot be empty"}
-    
     try:
         history = sessions[question.session_id]
         history_text = "\n".join(history[-6:])
-        
         answer = chain.invoke({
             "question": question.text,
             "history": history_text
         })
-        
         history.append(f"User: {question.text}")
         history.append(f"AI: {answer}")
-        
         return {
             "question": question.text,
             "answer": answer,
@@ -115,7 +125,6 @@ def ask(question: Question):
         }
     except Exception as e:
         return {"error": f"Something went wrong: {str(e)}"}
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
