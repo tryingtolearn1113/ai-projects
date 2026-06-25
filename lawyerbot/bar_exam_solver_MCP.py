@@ -235,7 +235,7 @@ def main(pdf_path: str, custom_model_path: str = None):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("\n Usage: %run kaggle_lawyer_bot.py [PDF_PATH] [Optional: MODEL_PATH]")
+        print("\n Usage: %run bar_exam_solver_MCP.py [PDF_PATH] [Optional: MODEL_PATH]")
         sys.exit(1)
         
     pdf_input = sys.argv[1]
